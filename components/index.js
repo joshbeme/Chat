@@ -1,29 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {Provider} from 'react-redux';
-// import store from './components/redux/store'
+import {createAppContainer, createStackNavigator} from 'react-navigation';
+import Home from './home';
 
-export default class App extends React.Component {
-
-    componentDidMount(){
-        this.props.navigation.navigate('Home')
-    }
-  render() {
-    return (
-    //   <Provider store={}>
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-    //   </Provider>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const stack = createStackNavigator({
+    Home: Home
 });
+
+export default createAppContainer(stack);

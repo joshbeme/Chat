@@ -1,6 +1,16 @@
 import React, {Component} from 'react';
-import Index from './components/navigation';
-import {createAppContainer, createStackNavigator} from 'react-navigation'
+import {createAppContainer, createStackNavigator} from 'react-navigation';
+import Home from './components/home';
+
+
+const stack = createStackNavigator({
+  Home: Home
+},
+{
+  initialRouteName: "Home"
+});
+
+const AppContainer = createAppContainer(stack)
 
 class App extends Component{
   componentDidMount(){
@@ -8,7 +18,7 @@ class App extends Component{
   }
   render(){
     return(
-      <Index />
+      <AppContainer />
     )
   }
 }
