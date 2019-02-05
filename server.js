@@ -7,16 +7,17 @@ const routes = require('./routes/index');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const session = require('express-session');
+const uuid = require('uuid');
 
 const PORT = process.env.PORT || 3000;
 
-const mongoURI = "mongodb+srv://joshbeme:P2pmwVe9afAStAQ@cluster0-mo167.gcp.mongodb.net/chatApp?retryWrites=true"
+const mongoURI = `mongodb+srv://joshbeme:P2pmwVe9afAStAQ@cluster0-mo167.gcp.mongodb.net/chatApp?retryWrites=true`
 
 mongoose.connect(mongoURI, {useNewUrlParser: true, useCreateIndex: true});
 const db = mongoose.connection;
 
 
-
+console.log(typeof uuid())
 app.use(session({
     secret: "Im not sure what to put",
     resave: true,
@@ -37,10 +38,9 @@ io.on('message', (socket)=>{
 
 //error handling
 
-app.use(function(req, res, next){
-    var err = new Error('Theres a problem');
-    err.status = 404;
-    next(err)
+app.use(function(err, req, res, next){
+    
+    res.send(err)
 })
 
 

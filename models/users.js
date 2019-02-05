@@ -2,12 +2,11 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const date = Date().split(" ");
-const dateNow = date.filter((string, i)=>{
-   if(i===1||i===2||i===3||i===4){
-        return string;
-      }
-}).join(' ');
+
+
+const friendSchema = new mongoose.Schema({
+    type: Object
+})
 
 const UserSchema =  new mongoose.Schema({
     email:{
@@ -27,13 +26,16 @@ const UserSchema =  new mongoose.Schema({
         required: true,
       
     },
-    friends: [{
-            userName: String,
-            messageId: String
-        }
-        ]
-    
+    friends: {
+        type: Object,
+        default: {}
+    },
+    requests:{
+        type: Array, 
+        default: []
+    }
 });
+
 
 
 UserSchema.statics.authenticate = function(email, password, callback){
@@ -46,6 +48,7 @@ UserSchema.statics.authenticate = function(email, password, callback){
         }
         else{
             bcrypt.compare(password, user.password, function(error, result){
+                console.log(result);
                 if (result === true){
                     console.log('good')
                     return callback(null, user)
@@ -57,7 +60,12 @@ UserSchema.statics.authenticate = function(email, password, callback){
             })
         }
     })
-}
+};
+
+UserSchema.static('addFriend', function(from, to, callback){
+
+
+})
 
 UserSchema.pre('save', function(next){
     const user = this;
@@ -68,7 +76,9 @@ UserSchema.pre('save', function(next){
             return next()
         }
     })
-})
+});
+
+
 
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
