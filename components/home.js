@@ -1,24 +1,48 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
-import {Provider} from 'react-redux';
+import React from "react";
+import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
+import { Provider } from "react-redux";
 // import store from './components/redux/store'
 
 export default class App extends React.Component {
-
-    componentDidMount(){
-        this.props.navigation.navigate('Home')
+  constructor(props){
+    super(props);
+  };
+  static navigationOptions = ({navigation}) =>{
+    return {
+      header: null
     }
+  }
+
+  _onPress(){
+    this.props.navigation.navigate('Login')
+  }
+  componentDidMount() {
+  }
   render() {
     return (
-    //   <Provider store={}>
+      //   <Provider store={}>
       <View style={styles.container}>
-              <Text style={styles.text}>Register or Log in to start chatting</Text>
-      <View style={styles.options}>
-      <Button style={styles.container} title="Register" onPress={()=>this.props.navigation.navigate('Register')}/>
-      <Button style={styles.container} title="Login" onPress={()=>this.props.navigation.navigate('Login')} />
+        <Text style={styles.title}>Babel On</Text>
+        <View style={styles.buttons}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Register")}
+        >
+          <Text style={styles.text} >
+            Register
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Login")}
+        >
+          <Text style={styles.text} >
+            Login
+          </Text>
+        </TouchableOpacity>
+        </View>
       </View>
-      </View>
-    //   </Provider>
+      //   </Provider>
     );
   }
 }
@@ -26,14 +50,33 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ccc',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#3a5466",
+    alignItems: "center",
+    justifyContent: "center"
   },
-  text:{
-    top: 0
+  text: {
+    alignSelf: "center"
+    
   },
-  options:{
+  options: {
     height: 100
+  },
+  buttons:{
+    height: 200,
+    justifyContent: "space-evenly"
+  },
+  button:{
+    alignItems: 'center',
+    height: 40,
+    width: 170,
+    backgroundColor: "#6e3942",
+    borderRadius: 4,
+    padding: 9
+    
+  },
+  title:{
+    fontSize: 60,
+    fontFamily: "Roboto",
+    padding: 20
   }
 });

@@ -55,8 +55,9 @@ router.get("/register", function(req, res, next) {});
 
 //registering
 router.post("/register", function(req, res, next) {
-  const { email, password, userName } = req.body;
-  if (email && password && userName) {
+  const { email, password, userName, confirm } = req.body;
+  if (email && password && userName && confirm) {
+    if(password === confirm){
     const userData = { email, password, userName };
     User.create(userData, function(error, user) {
       if (error) {
@@ -66,12 +67,12 @@ router.post("/register", function(req, res, next) {
         console.log("success");
         res.redirect("/");
       }
-    });
+    });}
   } else {
     const err = new Error("Missing field");
     err.status = 400;
     next(err);
-  }
+  };
 });
 
 router.get("/logout", function(req, res, next) {
@@ -115,9 +116,19 @@ router.get('/request', (req, res, next)=>{
 router.post('/request', (req, res, next)=>{
   User.findOne({userName: req.body.userName}, (error, friend)=>{
     if(error)return next(error)
+   
       User.findById(req.session.userId, (error, you)=>{
+        const checker = (element) => {
+          return element === you.userName
+        }
         if(error) return error
         else{
+          if(friend.requests.some(checker)){
+            const err = new Error('User already requested')
+            err.status = 400;
+            next(err)
+          }
+          else{
           friend.requests.push(you.userName);
           friend.save((error, saveData)=>{
             if(error){
@@ -128,7 +139,7 @@ router.post('/request', (req, res, next)=>{
             else{
               res.redirect('/request')
             }
-          })
+          })}
         }
       })
   })

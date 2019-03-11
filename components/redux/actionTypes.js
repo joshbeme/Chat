@@ -1,0 +1,3 @@
+export const ADD_FRIENDS = "ADD_FRIENDS";
+export const LOAD_FRIENDS = "LOAD_FRIENDS";
+export const REMOVE_FRIEND = "REMOVE_FRIEND";
